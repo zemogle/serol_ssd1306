@@ -9,7 +9,7 @@ Display the Serol head while booting.
 """
 
 import os.path
-from luma.core.interface.serial import i2
+from luma.core.interface.serial import i2c
 from luma.oled.device import ssd1306
 serial = i2c(port=1, address=0x3C)
 
