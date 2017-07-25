@@ -30,8 +30,9 @@ def boot():
     time.sleep(4)
 
     with canvas(device) as draw:
-        draw.text((0, 0), "PROJECT", font=font)
-        draw.text((30, 40), "SEROL",font=font)
+        draw.rectangle(device.bounding_box, outline="white", fill="black")
+        draw.text((30, 0), "PROJECT", fill="white", font=font)
+        draw.text((35, 40), "SEROL", fill="white",font=ImageFont.truetype(None, 16))
     time.sleep(4)
     return
 
