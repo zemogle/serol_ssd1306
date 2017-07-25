@@ -9,8 +9,12 @@ Display the Serol head while booting.
 """
 
 import os.path
+import time
+
 from luma.core.interface.serial import i2c
 from luma.oled.device import ssd1306
+
+
 serial = i2c(port=1, address=0x3C)
 
 device = ssd1306(serial)
@@ -24,6 +28,8 @@ def main():
     logo = Image.open(img_path).convert("RGBA")
     img = logo.resize(device.size)
     device.display(img.convert(device.mode))
+    time.sleep(20)
+    return
 
 
 if __name__ == "__main__":
