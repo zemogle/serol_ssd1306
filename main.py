@@ -23,7 +23,8 @@ device = ssd1306(serial)
 
 
 def boot():
-    font = ImageFont.truetype("pixelmix.ttf", 16)
+    font = ImageFont.truetype("Affogato-Regular.ttf", 18)
+    font = ImageFont.truetype("Affogato-Regular.ttf", 12)
     with canvas(device) as draw:
         draw.rectangle(device.bounding_box, outline="white", fill="black")
         draw.text((30, 10), "Welcome to..", fill="white")
@@ -31,8 +32,9 @@ def boot():
 
     with canvas(device) as draw:
         draw.rectangle(device.bounding_box, outline="white", fill="black")
-        draw.text((30, 0), "PROJECT", fill="white", font=font)
-        draw.text((35, 40), "SEROL", fill="white",font=ImageFont.truetype(None, 16))
+        draw.text((35, 0), "Serol", fill="white", font=font_lg)
+        draw.text((30, 20), "Cosmic", fill="white", font=font)
+        raw.text((30, 40), "Explorer", fill="white", font=font)
     time.sleep(4)
     return
 
