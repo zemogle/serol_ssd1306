@@ -22,6 +22,17 @@ device = ssd1306(serial)
 from PIL import Image
 
 
+def boot():
+    font = (None,14)
+    term = terminal(device, font)
+    term.println("Welcome to ...")
+    time.sleep(2)
+    term = terminal(device, font)
+    term.println("PROJECT")
+    term.println("SEROL")
+    time.sleep(4)
+    return
+
 def main():
     img_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
         'serolheadgrey.png'))
@@ -34,6 +45,7 @@ def main():
 
 if __name__ == "__main__":
     try:
+        boot()
         main()
     except KeyboardInterrupt:
         pass
