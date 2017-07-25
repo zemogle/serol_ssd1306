@@ -11,27 +11,28 @@ Display the Serol head while booting.
 import os.path
 import time
 
+from PIL import Image
 from luma.core.interface.serial import i2c
 from luma.oled.device import ssd1306
-from luma.core.virtual import terminal
-
+from luma.core.virtual import viewport
+from luma.core.render import canvas
 
 serial = i2c(port=1, address=0x3C)
 
 device = ssd1306(serial)
 
-from PIL import Image
 
 
 def boot():
-    font = (None,14)
-    term = terminal(device, font)
-    term.println("Welcome to ...")
-    time.sleep(2)
-    term = terminal(device, font)
-    term.println("PROJECT")
-    term.println("SEROL")
-    time.sleep(4)
+    font = ImageFont.truetype("pixelmix.ttf", 16)
+    with canvas(device) as draw:
+        draw.rectangle(device.bounding_box, outline="white", fill="black")
+        draw.text((30, 10), "Welcome to..", fill="white")
+        time.sleep(4)
+    with canvas(device) as draw:
+        draw.text((30, 20), "PROJECT", font=font)
+        draw.text((30, 40), "SEROL",font=font)
+        time.sleep(4)
     return
 
 def main():
