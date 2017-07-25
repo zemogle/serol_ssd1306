@@ -36,21 +36,21 @@ def boot():
         draw.text((35, 0), "Serol", fill="white", font=font_lg)
         draw.text((20, 32), "Cosmic Explorer", fill="white", font=font)
     time.sleep(4)
-    return
-
-def main():
     img_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-        'serolheadgrey.png'))
+        'serolheadblack.png'))
     logo = Image.open(img_path).convert("RGBA")
     img = logo.resize(device.size)
     device.display(img.convert(device.mode))
-    time.sleep(20)
+    time.sleep(4)
+    return
+
+def main():
+
     return
 
 
 if __name__ == "__main__":
     try:
         boot()
-        main()
     except KeyboardInterrupt:
         pass
