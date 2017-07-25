@@ -23,8 +23,9 @@ device = ssd1306(serial)
 
 
 def boot():
-    font_lg = ImageFont.truetype("Affogato-Regular.ttf", 30)
-    font = ImageFont.truetype("Affogato-Regular.ttf", 12)
+    fontpath = os.path.abspath(os.path.join(os.path.dirname(__file__),"Affogato-Regular.ttf"))
+    font_lg = ImageFont.truetype(fontpath, 30)
+    font = ImageFont.truetype(fontpath, 12)
     with canvas(device) as draw:
         draw.rectangle(device.bounding_box, outline="white", fill="black")
         draw.text((30, 10), "Welcome to..", fill="white")
@@ -33,7 +34,7 @@ def boot():
     with canvas(device) as draw:
         draw.rectangle(device.bounding_box, outline="white", fill="black")
         draw.text((35, 0), "Serol", fill="white", font=font_lg)
-        draw.text((10, 32), "Cosmic Explorer", fill="white", font=font)
+        draw.text((20, 32), "Cosmic Explorer", fill="white", font=font)
     time.sleep(4)
     return
 
