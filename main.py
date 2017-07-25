@@ -11,7 +11,7 @@ Display the Serol head while booting.
 import os.path
 import time
 
-from PIL import Image
+from PIL import Image, ImageFont
 from luma.core.interface.serial import i2c
 from luma.oled.device import ssd1306
 from luma.core.virtual import viewport
