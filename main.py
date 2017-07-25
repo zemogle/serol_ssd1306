@@ -23,17 +23,7 @@ def main():
         'serolheadgrey.png'))
     logo = Image.open(img_path).convert("RGBA")
     img = logo.resize(device.size)
-    fff = Image.new(img.mode, img.size, (255,) * 4)
-
-    background = Image.new("RGBA", device.size, "white")
-    posn = ((device.width - img.width) // 2, 0)
-
-    while True:
-        for angle in range(0, 360, 2):
-            rot = img.rotate(angle, resample=Image.BILINEAR)
-            img = Image.composite(rot, fff, rot)
-            background.paste(img, posn)
-            device.display(background.convert(device.mode))
+    device.display(img.convert(device.mode))
 
 
 if __name__ == "__main__":
