@@ -14,7 +14,7 @@ URL_BASE = 'http://10.73.224.41:5000'
 URL_MISSION = '{}/mission/'.format(URL_BASE)
 URL_CHALLENGE = '{}/challenge/'.format(URL_BASE)
 URL_STATUS = '{}/'.format(URL_BASE)
-RESPONSES = {'ok' : "tick.png", ""}
+
 SECRETS_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__),'secrets.json'))
 THINKING = ['serolbw_thinking1.png','serolbw_thinking2.png','serolbw_thinking4.png','serolbw_thinking5.png','serolbw_thinking6.png','serolbw_thinking5.png','serolbw_thinking4.png','serolbw_thinking2.png']
 
@@ -40,7 +40,17 @@ class Looping(object):
             img = self.sequence[ia]
             device.display(img.convert(device.mode))
             i += 1
-            time.sleep(0.1)
+            time.sleep(0.05)
+
+        return
+
+def show_img(img):
+    img_path = os.path.abspath(os.path.join(os.path.dirname(__file__),"images", img))
+    logo = Image.open(img_path).convert("RGBA")
+    im = logo.resize(device.size)
+    device.display(img.convert(device.mode))
+    time.sleep(4)
+    return
 
 def boot():
     fontpath = os.path.abspath(os.path.join(os.path.dirname(__file__),"fonts","Affogato-Regular.ttf"))
@@ -69,23 +79,40 @@ def import_settings():
         d = json.load(json_data)
     return d
 
-def request_status(settings,):
-    resp = requests.get('https://observe.lco.global/api/userrequests/3456/', headers = )
+def request_status():
+    settings = import_settings()
+    headers = {'Authorization': 'Token {}'.format(settings['valhalla_token'])}
+    for id in settings['request_ids']:
+        resp = requests.get('https://observe.lco.global/api/userrequests/{}/'.format(), headers = headers)
+    if resp.status_code not in [200, 201]:
+        return 'ERROR'
+    msg = resp.json()['state']
+    return msg
 
 def check_status():
-    resp = requests.get(URL_STATUS).json()
-    if resp['status'] == 'ok':
-        send_message("tick.png")
+    l = Looping()
+    t = threading.Thread(target = l.runForever)
+    t.start()
+    resp = requests_status()
+    if resp == 'COMPLETED':
+        show_img("serolbw_fail.png")
     time.sleep(10)
+    return
 
-def send_message(img,colour=(0,255,0)):
-    sense = SenseHat()
-    sense.set_rotation(180)
-    sense.load_image(img)
+
+@click.command()
+@click.option('--poll', is_flag=True)
+@click.option('--boot', is_flag=True)
+def runner(poll, boot):
+    if poll:
+        check_status()
+    if boot:
+        boot()
+    return
 
 
 if __name__ == "__main__":
     try:
-        boot()
+        runner()
     except KeyboardInterrupt:
         pass
