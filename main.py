@@ -28,6 +28,9 @@ THINKING = ['serolbw_thinking1.png','serolbw_thinking2.png','serolbw_thinking4.p
 serial = i2c(port=1, address=0x3C)
 device = ssd1306(serial)
 
+fontpath = os.path.abspath(os.path.join(os.path.dirname(__file__),"fonts","Affogato-Regular.ttf"))
+font = ImageFont.truetype(fontpath, 16)
+
 class Looping(object):
 
     def __init__(self):
@@ -62,14 +65,13 @@ def show_img(img):
 def show_msg(text):
     with canvas(device) as draw:
         draw.rectangle(device.bounding_box, outline="white", fill="black")
-        draw.text((35, 0), "".format(text), fill="white", font=font_lg)
+        draw.text((35, 0), "".format(text), fill="white", font=font)
     time.sleep(4)
     return
 
 def boot():
-    fontpath = os.path.abspath(os.path.join(os.path.dirname(__file__),"fonts","Affogato-Regular.ttf"))
     font_lg = ImageFont.truetype(fontpath, 30)
-    font = ImageFont.truetype(fontpath, 12)
+    font_sm = ImageFont.truetype(fontpath, 12)
     with canvas(device) as draw:
         draw.rectangle(device.bounding_box, outline="white", fill="black")
         draw.text((30, 10), "Welcome to..", fill="white")
@@ -78,7 +80,7 @@ def boot():
     with canvas(device) as draw:
         draw.rectangle(device.bounding_box, outline="white", fill="black")
         draw.text((35, 0), "Serol", fill="white", font=font_lg)
-        draw.text((20, 32), "Cosmic Explorer", fill="white", font=font)
+        draw.text((20, 32), "Cosmic Explorer", fill="white", font=font_sm)
     time.sleep(4)
     img_path = os.path.abspath(os.path.join(os.path.dirname(__file__),"images", 'serolscreenblack.png'))
     logo = Image.open(img_path).convert("RGBA")
