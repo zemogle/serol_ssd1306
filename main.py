@@ -1,6 +1,7 @@
 import os.path
 import time
 import threading
+import json
 
 import click
 from PIL import Image, ImageFont
