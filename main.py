@@ -83,8 +83,8 @@ def import_settings():
 def request_status():
     settings = import_settings()
     headers = {'Authorization': 'Token {}'.format(settings['valhalla_token'])}
-    for id in settings['request_ids']:
-        resp = requests.get('https://observe.lco.global/api/userrequests/{}/'.format(), headers = headers)
+    for rid in settings['request_ids']:
+        resp = requests.get('https://observe.lco.global/api/userrequests/{}/'.format(rid), headers = headers)
     if resp.status_code not in [200, 201]:
         return 'ERROR'
     msg = resp.json()['state']
