@@ -103,6 +103,7 @@ def request_status(rid):
     return msg
 
 def check_status():
+    settings = import_settings()
     for rid in settings['request_ids']:
         show_msg("Checking {}".format(rid))
         l = Looping()
