@@ -93,7 +93,7 @@ def check_status():
     l = Looping()
     t = threading.Thread(target = l.runForever)
     t.start()
-    resp = requests_status()
+    resp = request_status()
     if resp == 'COMPLETED':
         show_img("serolbw_fail.png")
     time.sleep(10)
