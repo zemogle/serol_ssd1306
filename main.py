@@ -119,7 +119,7 @@ def check_status():
 @click.option('--update', is_flag=True)
 @click.option('--splash', is_flag=True)
 def runner(update, splash):
-    if poll:
+    if update:
         check_status()
     if splash:
         boot()
