@@ -29,7 +29,6 @@ serial = i2c(port=1, address=0x3C)
 device = ssd1306(serial)
 
 fontpath = os.path.abspath(os.path.join(os.path.dirname(__file__),"fonts","Affogato-Regular.ttf"))
-font = ImageFont.truetype(fontpath, 16)
 
 class Looping(object):
 
@@ -63,9 +62,10 @@ def show_img(img):
     return
 
 def show_msg(text):
+    font = ImageFont.truetype(fontpath, 16)
     with canvas(device) as draw:
         draw.rectangle(device.bounding_box, outline="white", fill="black")
-        draw.text((35, 0), "".format(text), fill="white", font=font)
+        draw.text((5, 10), "{}".format(text), fill="white", font=font)
     time.sleep(4)
     return
 
@@ -111,7 +111,7 @@ def check_status():
         l = Looping()
         t = threading.Thread(target = l.runForever)
         t.start()
-        resp = request_status()
+        resp = request_status(rid)
         l.isRunning = False
         show_img(STATUS_FACE['resp'])
         time.sleep(10)
