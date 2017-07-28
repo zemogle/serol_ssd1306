@@ -49,7 +49,7 @@ def show_img(img):
     img_path = os.path.abspath(os.path.join(os.path.dirname(__file__),"images", img))
     logo = Image.open(img_path).convert("RGBA")
     im = logo.resize(device.size)
-    device.display(img.convert(device.mode))
+    device.display(im.convert(device.mode))
     time.sleep(4)
     return
 
@@ -96,6 +96,7 @@ def check_status():
     t.start()
     resp = request_status()
     if resp == 'COMPLETED':
+        l.isRunning = False
         show_img("serolbw_fail.png")
     time.sleep(10)
     return
