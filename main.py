@@ -102,11 +102,11 @@ def check_status():
 
 @click.command()
 @click.option('--poll', is_flag=True)
-@click.option('--boot', is_flag=True)
-def runner(poll, boot):
+@click.option('--splash', is_flag=True)
+def runner(poll, splash):
     if poll:
         check_status()
-    if boot:
+    if splash:
         boot()
     return
 
