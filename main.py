@@ -15,6 +15,12 @@ URL_BASE = 'http://10.73.224.41:5000'
 URL_MISSION = '{}/mission/'.format(URL_BASE)
 URL_CHALLENGE = '{}/challenge/'.format(URL_BASE)
 URL_STATUS = '{}/'.format(URL_BASE)
+STATUS_FACE = { 'FAILED':"serolbw_fail.png",
+                'CANCELED':"serolbw_fail.png",
+                'WINDOW_EXPIRED' : "serolbw_fail.png",
+                'COMPLETED' : "serolbw_thinking1.png",
+                'PENDING'   : "serolbw_thinking6.png",
+                }
 
 SECRETS_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__),'secrets.json'))
 THINKING = ['serolbw_thinking1.png','serolbw_thinking2.png','serolbw_thinking4.png','serolbw_thinking5.png','serolbw_thinking6.png','serolbw_thinking5.png','serolbw_thinking4.png','serolbw_thinking2.png']
@@ -53,6 +59,13 @@ def show_img(img):
     time.sleep(4)
     return
 
+def show_msg(text):
+    with canvas(device) as draw:
+        draw.rectangle(device.bounding_box, outline="white", fill="black")
+        draw.text((35, 0), "".format(text), fill="white", font=font_lg)
+    time.sleep(4)
+    return
+
 def boot():
     fontpath = os.path.abspath(os.path.join(os.path.dirname(__file__),"fonts","Affogato-Regular.ttf"))
     font_lg = ImageFont.truetype(fontpath, 30)
@@ -80,32 +93,32 @@ def import_settings():
         d = json.load(json_data)
     return d
 
-def request_status():
+def request_status(rid):
     settings = import_settings()
     headers = {'Authorization': 'Token {}'.format(settings['valhalla_token'])}
-    for rid in settings['request_ids']:
-        resp = requests.get('https://observe.lco.global/api/userrequests/{}/'.format(rid), headers = headers)
+    resp = requests.get('https://observe.lco.global/api/userrequests/{}/'.format(rid), headers = headers)
     if resp.status_code not in [200, 201]:
         return 'ERROR'
     msg = resp.json()['state']
     return msg
 
 def check_status():
-    l = Looping()
-    t = threading.Thread(target = l.runForever)
-    t.start()
-    resp = request_status()
-    if resp == 'COMPLETED':
+    for rid in settings['request_ids']:
+        show_msg("Checking {}".format(rid))
+        l = Looping()
+        t = threading.Thread(target = l.runForever)
+        t.start()
+        resp = request_status()
         l.isRunning = False
-        show_img("serolbw_fail.png")
-    time.sleep(10)
+        show_img(STATUS_FACE['resp'])
+        time.sleep(10)
     return
 
 
 @click.command()
-@click.option('--poll', is_flag=True)
+@click.option('--update', is_flag=True)
 @click.option('--splash', is_flag=True)
-def runner(poll, splash):
+def runner(update, splash):
     if poll:
         check_status()
     if splash:
