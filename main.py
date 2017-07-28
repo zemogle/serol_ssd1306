@@ -113,7 +113,7 @@ def check_status():
         t.start()
         resp = request_status(rid)
         l.isRunning = False
-        show_img(STATUS_FACE['resp'])
+        show_img(STATUS_FACE[resp])
         time.sleep(10)
     return
 
